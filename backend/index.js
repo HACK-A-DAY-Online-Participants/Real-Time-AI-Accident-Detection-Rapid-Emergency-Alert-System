@@ -8,12 +8,17 @@ app.use(express.json());
 let alerts = [];
 
 app.post("/alert", (req, res) => {
-    alerts.push(req.body);
-    res.json({message:"Alert Received"});
+    const alert = {
+        ...req.body,
+        time: new Date().toLocaleTimeString(),
+    };
+    alerts.push(alert);
+    console.log("🚨 New Alert Received:", alert);
+    res.status(200).send({ message: "Alert Received" });
 });
 
 app.get("/alerts", (req, res) => {
     res.json(alerts);
 });
 
-app.listen(5000, () => console.log("Server running on port 5000"));
+app.listen(5000, () => console.log("Backend running on port 5000"));
